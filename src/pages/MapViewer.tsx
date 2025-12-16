@@ -1,10 +1,3 @@
-
-
-export default function MapViewer(){
-
-    return (
-        <>
-        
-        </>
-    )
+export default function MapViewer() {
+	return <></>
 }

@@ -1,10 +1,3 @@
-
-
-export default function SiteSelector(){
-
-    return (
-        <>
-        
-        </>
-    )
+export default function SiteSelector() {
+	return <></>
 }

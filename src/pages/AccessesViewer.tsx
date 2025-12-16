@@ -1,10 +1,3 @@
-
-
-export default function AccessesViewer(){
-
-    return (
-        <>
-        
-        </>
-    )
+export default function AccessesViewer() {
+	return <></>
 }

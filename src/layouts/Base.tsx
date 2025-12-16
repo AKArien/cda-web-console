@@ -1,13 +1,13 @@
 interface BaseProps {
-  children: React.ReactNode;
+	children: React.ReactNode
 }
 
 export default function Base(props: BaseProps) {
-  return (
-    <>
-    basic bitch
-    {document.cookie ? document.cookie : "nothing"}
-    {props.children}
-    </>
-  );
+	return (
+		<>
+			basic bitch
+			{document.cookie ? document.cookie : "nothing"}
+			{props.children}
+		</>
+	)
 }
