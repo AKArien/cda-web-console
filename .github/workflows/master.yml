@@ -1,0 +1,33 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  frontend_checks:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: cd
+        run: cd web-console
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js LTS/Jod
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: web-console && pnpm install
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Lint project
+        run: pnpm run lint
