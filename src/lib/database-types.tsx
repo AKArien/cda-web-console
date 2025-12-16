@@ -1,12 +1,12 @@
 // public interfaces to records and types from database
 
 // point and perimeter type to interface with postgres geographic types
-export type point = {
-	x: number
-	y: number
+export interface point {
+	readonly x: number
+	readonly y: number
 }
 
-export type path = {
+export interface path {
 	points: point[]
 	closed: boolean
 }

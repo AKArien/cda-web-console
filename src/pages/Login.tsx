@@ -21,7 +21,7 @@ export default function Login() {
 	}
 
 	useEffect(() => {
-		;(async () => {
+		void (async () => {
 			const access = await session_access()
 			if (access) {
 				void navigate("/")
@@ -32,7 +32,7 @@ export default function Login() {
 	return (
 		<form
 			method="post"
-			onSubmit={handleSubmit}
+			onSubmit={void handleSubmit}
 		>
 			{error ?
 				<div className="error">{error}</div>

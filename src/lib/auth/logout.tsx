@@ -1,14 +1,7 @@
+import { auth_headers } from "../headers"
+
 export async function logout(): Promise<Response> {
-	const headers: Headers = new Headers()
-	headers.set("Content-Type", "application/json")
-	headers.set(
-		"Authorization",
-		"Bearer " +
-			(document.cookie
-				.split("; ")
-				.find((row) => row.startsWith("session="))
-				?.split("=")[1] ?? ""),
-	)
+	const headers = auth_headers()
 
 	const res = await fetch("https://localhost:3000/rpc/logout", {
 		method: "GET",

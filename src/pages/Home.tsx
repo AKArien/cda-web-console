@@ -7,7 +7,7 @@ export default function Home() {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		;(async () => {
+		void (async () => {
 			const access = await session_access()
 			if (!access) {
 				void navigate("/login")

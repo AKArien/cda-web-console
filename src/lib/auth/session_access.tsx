@@ -1,16 +1,8 @@
 import type { access } from "../database-types"
+import { auth_headers } from "../headers"
 
 export async function session_access(): Promise<access | null> {
-	const headers: Headers = new Headers()
-	headers.set("Content-Type", "application/json")
-	headers.set(
-		"Authorization",
-		"Bearer " +
-			document.cookie
-				.split("; ")
-				.find((row) => row.startsWith("session"))
-				?.split("=")[1],
-	)
+	const headers = auth_headers()
 
 	const res = await fetch("https://localhost:3000/rpc/get_access_data", {
 		method: "GET",

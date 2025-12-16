@@ -1,3 +1,5 @@
+import { anon_headers } from "../headers"
+
 interface RetData {
 	token: string
 	session_time: number
@@ -8,13 +10,7 @@ export async function login(
 	pass: string,
 	req_dur = 3600,
 ): Promise<Response> {
-	const headers: Headers = new Headers()
-	headers.set("Content-Type", "application/json")
-	headers.set("Access-Control-Allow-Origin", "*")
-	headers.set(
-		"Access-Control-Allow-Headers",
-		"Origin, X-Requested-With, Content-Type, Accept",
-	)
+	const headers = anon_headers()
 
 	const res = await fetch("http://localhost:3000/rpc/login", {
 		method: "POST",
