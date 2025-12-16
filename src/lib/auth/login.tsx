@@ -6,9 +6,11 @@ interface RetData {
 export async function login(access: string, pass: string, req_dur = 3600): Promise<Response>{
     const headers: Headers = new Headers()
     headers.set("Content-Type", "application/json")
+    headers.set("Access-Control-Allow-Origin", "*")
+    headers.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 
     const res = await fetch(
-        "https://localhost:3000/rpc/login",
+        "http://localhost:3000/rpc/login",
         {
             method: "POST",
             headers: headers,
@@ -23,15 +25,16 @@ export async function login(access: string, pass: string, req_dur = 3600): Promi
     )
 
     if (res.ok){
+        console.log("setting cookie")
         const resp = await res.json() as RetData
-        const exp = (new Date(new Date().getTime() + resp.session_time))
+        const exp = (new Date(Date.now() + (resp.session_time * 60 * 1000)))
 
         document.cookie =
             "session="
             + resp.token
             + "; expires="
             + exp.toUTCString()
-            + "; path=/auth"
+            + "; path=/"
     }
 
     return res

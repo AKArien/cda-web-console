@@ -14,7 +14,7 @@ export default function Login(){
         const pass = formData.get("pass") as string
         try {
             await login(access, pass)
-            void navigate("/console")
+            void navigate("/")
         }
         catch (e) {
             setError(e as string)
@@ -31,7 +31,7 @@ export default function Login(){
     }, [navigate]);
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form method="post" onSubmit={handleSubmit}>
             {error ? <div className="error">{error}</div> : null}
             <label htmlFor="access">Access</label>
             <input
@@ -52,6 +52,9 @@ export default function Login(){
                 name="req_dur"
                 type="number"
             />
+            <button type="submit">
+                Log in
+            </button>
         </form>
     )
 }
