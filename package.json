@@ -12,6 +12,7 @@
 		"test": "vitest"
 	},
 	"dependencies": {
+		"@types/selenium-webdriver": "^4.35.5",
 		"eslint-plugin-react": "^7.37.5",
 		"prettier": "^3.7.4",
 		"react": "^19.2.0",
