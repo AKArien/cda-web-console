@@ -8,14 +8,17 @@
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview",
-		"format": "prettier . --write"
+		"format": "prettier . --write",
+		"test": "vitest"
 	},
 	"dependencies": {
 		"eslint-plugin-react": "^7.37.5",
 		"prettier": "^3.7.4",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
-		"react-router": "^7.10.0"
+		"react-router": "^7.10.0",
+		"selenium": "^2.20.0",
+		"vitest": "^4.0.17"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.1",
