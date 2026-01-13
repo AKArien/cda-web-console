@@ -28,3 +28,6 @@ jobs:
 
       - name: Lint project
         run: pnpm run lint
+
+      - name: Run tests
+        run: pnpm run test
