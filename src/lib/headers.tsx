@@ -9,7 +9,16 @@ export function anon_headers(): Headers {
 	return headers
 }
 
+// all calls to auth_headers, and thus any authenticated api call, must catch a potential error on no session
 export function auth_headers(): Headers {
+	const sessionCookie = document.cookie
+    .split("; ")
+    .find((cookie) => cookie.startsWith("session="));
+
+	if (!sessionCookie) {
+		throw new Error
+	}
+
 	const headers = anon_headers()
 	headers.set(
 		"Authorization",
