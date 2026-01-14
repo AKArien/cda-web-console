@@ -2,7 +2,13 @@ import type { sites } from "../database-types"
 import { auth_headers } from "../headers"
 
 export async function get_available_sites(): Promise<sites[]> {
-	const headers = auth_headers()
+	let headers: Headers
+	try {
+		headers = auth_headers()
+	}
+	catch {
+		throw new Error()
+	}
 
 	const res = await fetch("https://localhost:3000/sites", {
 		method: "GET",

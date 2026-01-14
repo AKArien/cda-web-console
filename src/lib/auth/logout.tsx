@@ -1,7 +1,13 @@
 import { auth_headers } from "../headers"
 
 export async function logout(): Promise<Response> {
-	const headers = auth_headers()
+	let headers: Headers
+	try {
+		headers = auth_headers()
+	}
+	catch {
+		throw new Error
+	}
 
 	const res = await fetch("https://localhost:3000/rpc/logout", {
 		method: "GET",

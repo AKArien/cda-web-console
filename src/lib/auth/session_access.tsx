@@ -2,7 +2,13 @@ import type { access } from "../database-types"
 import { auth_headers } from "../headers"
 
 export async function session_access(): Promise<access | null> {
-	const headers = auth_headers()
+	let headers: Headers
+	try {
+		headers = auth_headers()
+	}
+	catch {
+		return null
+	}
 
 	const res = await fetch("https://localhost:3000/rpc/get_access_data", {
 		method: "GET",
