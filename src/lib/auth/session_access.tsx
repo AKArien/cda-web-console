@@ -10,7 +10,7 @@ export async function session_access(): Promise<access | null> {
 		return null
 	}
 
-	const res = await fetch("https://localhost:3000/rpc/get_access_data", {
+	const res = await fetch(import.meta.env.VITE_POSTGREST_URL + "/rpc/get_access_data", {
 		method: "GET",
 		headers: headers,
 	})

@@ -10,7 +10,7 @@ export async function get_available_sites(): Promise<sites[]> {
 		throw new Error()
 	}
 
-	const res = await fetch("https://localhost:3000/sites", {
+	const res = await fetch(import.meta.env.VITE_POSTRGREST_URL + "/sites", {
 		method: "GET",
 		headers: headers,
 	})
