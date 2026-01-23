@@ -15,5 +15,11 @@ export default function Home() {
 		})()
 	}, [navigate])
 
-	return <>Home sweet home</>
+	return (
+		<>
+			<p>
+				Home sweet home
+			</p>
+		</>
+	)
 }

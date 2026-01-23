@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
+import Dashboard from "./pages/Dashboard"
 import _404 from "./pages/errors/404"
 
 import { useState, useEffect } from "react"
@@ -41,6 +42,10 @@ export default function Router() {
 				<Route
 					path="/login"
 					element={<Login />}
+				/>
+				<Route
+					path="/dashboard"
+					element={<Dashboard />}
 				/>
 				<Route
 					path="*"
