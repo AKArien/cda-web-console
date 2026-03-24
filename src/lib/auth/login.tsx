@@ -12,7 +12,7 @@ export async function login(
 ): Promise<Response> {
 	const headers = anon_headers()
 
-	const res = await fetch(import.meta.env.VITE_DEV_WEBSITE_URL + "/rpc/login", {
+	const res = await fetch(import.meta.env.VITE_POSTGREST_URL + "/rpc/login", {
 		method: "POST",
 		headers: headers,
 		body: JSON.stringify({

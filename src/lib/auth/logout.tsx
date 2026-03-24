@@ -9,7 +9,7 @@ export async function logout(): Promise<Response> {
 		throw new Error
 	}
 
-	const res = await fetch(import.meta.env.VITE_DEV_WEBSITE_URL + "/rpc/logout", {
+	const res = await fetch(import.meta.env.VITE_POSTGREST_URL + "/rpc/logout", {
 		method: "GET",
 		headers: headers,
 	})
