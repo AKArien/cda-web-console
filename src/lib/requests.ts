@@ -1,7 +1,7 @@
 import { access, gateways, sites, watchers, reports } from "./database-types"
 import { auth_headers } from "./headers"
 
-interface api_types {
+interface endpoints {
     access: access
     sites: sites
     gateways: gateways
@@ -11,7 +11,9 @@ interface api_types {
     reports_sites: reports
 }
 
-export async function get<type extends keyof api_types>(endpoint: type, filters: string): Promise<api_types[type][]>{
+export async function get<endpoint extends keyof endpoints>(
+    endpoint: endpoint, filters: string
+): Promise<endpoints[endpoint][]>{
 	let headers: Headers
 	try {
 		headers = auth_headers()
@@ -29,7 +31,7 @@ export async function get<type extends keyof api_types>(endpoint: type, filters:
     );
 
     if (res.ok) {
-    return (await res.json()) as api_types[type][];
+        return (await res.json()) as endpoints[endpoint][];
     }
 
     throw new Error("Request failed");
