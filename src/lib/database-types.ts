@@ -13,6 +13,7 @@ export interface path {
 
 // types mimicking tables
 export interface access {
+	id: number
 	name: number
 	expires: Date
 	max_session_time: number
@@ -20,7 +21,30 @@ export interface access {
 }
 
 export interface sites {
+	id: number
 	name: string
 	info: string
 	perimeter: path
+}
+
+export interface gateways {
+	id: number
+	site: number
+	name: string
+	info: string
+	location: point
+}
+
+export interface watchers {
+	id: number
+	gateway: number
+	name: string
+	info: string
+	location: point
+}
+
+export interface reports {
+	moment: Date
+	watcher: number
+	report: number
 }
