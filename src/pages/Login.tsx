@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router"
 import { login } from "../lib/auth/login"
 import { session_access } from "../lib/auth/session_access"
@@ -6,6 +6,7 @@ import { session_access } from "../lib/auth/session_access"
 export default function Login() {
 	const [error, setError] = useState<string | null>(null)
 	const navigate = useNavigate()
+	const passInputRef = useRef<HTMLInputElement>(null)
 
 	async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
 		e.preventDefault()
@@ -79,6 +80,12 @@ export default function Login() {
 							</label>
 							<button
 								type="button"
+								onClick={() => {
+									if (passInputRef.current) {
+										passInputRef.current.value = ""
+										passInputRef.current.focus()
+									}
+								}}
 								className="btn btn-ghost btn-xs rounded-none px-0 uppercase tracking-wide text-primary"
 							>
 								Reset
@@ -90,6 +97,7 @@ export default function Login() {
 							type="password"
 							placeholder="••••••••••••"
 							required
+							ref={passInputRef}
 							className="input input-bordered w-full rounded-none"
 						/>
 					</div>
@@ -114,6 +122,8 @@ export default function Login() {
 					<label className="label cursor-pointer justify-start gap-2 px-0">
 						<input
 							type="checkbox"
+							name="persistent_session"
+							value="true"
 							className="checkbox checkbox-xs rounded-none"
 						/>
 						<span className="text-sm text-base-content/80">Persistent Session</span>
