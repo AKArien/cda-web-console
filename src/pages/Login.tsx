@@ -8,18 +8,27 @@ export default function Login() {
 	const navigate = useNavigate()
 	const passInputRef = useRef<HTMLInputElement>(null)
 
-	async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+	function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
 		e.preventDefault()
-		const formData = new FormData(e.currentTarget)
-		const access = formData.get("access") as string
-		const pass = formData.get("pass") as string
-		void formData.has("persistent_session")
-		try {
-			await login(access, pass)
-			void navigate("/")
-		} catch (e) {
-			setError(e as string)
-		}
+		void (async () => {
+			const formData = new FormData(e.currentTarget)
+			const access = formData.get("access") as string
+			const pass = formData.get("pass") as string
+			const reqDurHours = Number(formData.get("req_dur"))
+			const persistentSession = formData.has("persistent_session")
+			const reqDur = persistentSession ?
+				60 * 60 * 24 * 30
+			:	Number.isFinite(reqDurHours) && reqDurHours > 0 ?
+					reqDurHours * 60 * 60
+				:	60 * 60
+
+			try {
+				await login(access, pass, reqDur)
+				void navigate("/")
+			} catch (e) {
+				setError(e as string)
+			}
+		})()
 	}
 
 	useEffect(() => {
@@ -35,9 +44,7 @@ export default function Login() {
 		<div className="min-h-screen bg-base-100 flex items-center justify-center p-4">
 			<form
 				method="post"
-				onSubmit={(e) => {
-					void handleSubmit(e)
-				}}
+				onSubmit={handleSubmit}
 				className="w-full max-w-[320px] border border-base-300 bg-base-100"
 			>
 				<div className="px-6 py-8 border-b border-base-300 text-center">
