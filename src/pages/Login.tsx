@@ -6,6 +6,7 @@ import { session_access } from "../lib/auth/session_access"
 const SECONDS_PER_HOUR = 60 * 60
 const HOURS_PER_DAY = 24
 const DAYS_IN_PERSISTENT_SESSION = 30
+const DEFAULT_SESSION_HOURS = 1
 
 export default function Login() {
 	const [error, setError] = useState<string | null>(null)
@@ -16,11 +17,15 @@ export default function Login() {
 		const formData = new FormData(form)
 		const access = formData.get("access") as string
 		const pass = formData.get("pass") as string
-		const reqDurHours = Number(formData.get("req_dur"))
+		const reqDurRaw = formData.get("req_dur")
+		const reqDurHours =
+			typeof reqDurRaw === "string" && reqDurRaw.trim() !== "" ?
+				Number(reqDurRaw)
+			:	DEFAULT_SESSION_HOURS
 		const persistentSession = formData.has("persistent_session")
 		const reqDur = persistentSession ?
 			SECONDS_PER_HOUR * HOURS_PER_DAY * DAYS_IN_PERSISTENT_SESSION
-		:	Number.isFinite(reqDurHours) && reqDurHours > 0 ?
+		:	!Number.isNaN(reqDurHours) && reqDurHours > 0 ?
 				reqDurHours * SECONDS_PER_HOUR
 			:	SECONDS_PER_HOUR
 
@@ -128,7 +133,7 @@ export default function Login() {
 							name="req_dur"
 							type="number"
 							min={1}
-							defaultValue={1}
+							defaultValue={DEFAULT_SESSION_HOURS}
 							className="input input-bordered w-full rounded-none"
 						/>
 					</div>
