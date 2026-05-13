@@ -13,6 +13,7 @@ export default function Login() {
 		const formData = new FormData(e.currentTarget)
 		const access = formData.get("access") as string
 		const pass = formData.get("pass") as string
+		void formData.has("persistent_session")
 		try {
 			await login(access, pass)
 			void navigate("/")
