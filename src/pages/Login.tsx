@@ -3,32 +3,38 @@ import { useNavigate } from "react-router"
 import { login } from "../lib/auth/login"
 import { session_access } from "../lib/auth/session_access"
 
+const SECONDS_PER_HOUR = 60 * 60
+const HOURS_PER_DAY = 24
+const DAYS_IN_PERSISTENT_SESSION = 30
+
 export default function Login() {
 	const [error, setError] = useState<string | null>(null)
 	const navigate = useNavigate()
 	const passInputRef = useRef<HTMLInputElement>(null)
 
+	async function submitForm(form: HTMLFormElement) {
+		const formData = new FormData(form)
+		const access = formData.get("access") as string
+		const pass = formData.get("pass") as string
+		const reqDurHours = Number(formData.get("req_dur"))
+		const persistentSession = formData.has("persistent_session")
+		const reqDur = persistentSession ?
+			SECONDS_PER_HOUR * HOURS_PER_DAY * DAYS_IN_PERSISTENT_SESSION
+		:	Number.isFinite(reqDurHours) && reqDurHours > 0 ?
+				reqDurHours * SECONDS_PER_HOUR
+			:	SECONDS_PER_HOUR
+
+		try {
+			await login(access, pass, reqDur)
+			void navigate("/")
+		} catch (e) {
+			setError(e as string)
+		}
+	}
+
 	function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
 		e.preventDefault()
-		void (async () => {
-			const formData = new FormData(e.currentTarget)
-			const access = formData.get("access") as string
-			const pass = formData.get("pass") as string
-			const reqDurHours = Number(formData.get("req_dur"))
-			const persistentSession = formData.has("persistent_session")
-			const reqDur = persistentSession ?
-				60 * 60 * 24 * 30
-			:	Number.isFinite(reqDurHours) && reqDurHours > 0 ?
-					reqDurHours * 60 * 60
-				:	60 * 60
-
-			try {
-				await login(access, pass, reqDur)
-				void navigate("/")
-			} catch (e) {
-				setError(e as string)
-			}
-		})()
+		void submitForm(e.currentTarget)
 	}
 
 	useEffect(() => {
@@ -131,7 +137,6 @@ export default function Login() {
 						<input
 							type="checkbox"
 							name="persistent_session"
-							value="true"
 							className="checkbox checkbox-xs rounded-none"
 						/>
 						<span className="text-sm text-base-content/80">Persistent Session</span>
