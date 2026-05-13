@@ -33,7 +33,9 @@ export default function Login() {
 		<div className="min-h-screen bg-base-100 flex items-center justify-center p-4">
 			<form
 				method="post"
-				onSubmit={handleSubmit}
+				onSubmit={(e) => {
+					void handleSubmit(e)
+				}}
 				className="w-full max-w-[320px] border border-base-300 bg-base-100"
 			>
 				<div className="px-6 py-8 border-b border-base-300 text-center">
