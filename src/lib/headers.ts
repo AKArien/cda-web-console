@@ -16,7 +16,7 @@ export function auth_headers(): Headers {
     .find((cookie) => cookie.startsWith("session="));
 
 	if (!sessionCookie) {
-		throw new Error
+		throw new Error("no session")
 	}
 
 	const headers = anon_headers()
