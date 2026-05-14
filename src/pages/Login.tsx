@@ -56,7 +56,7 @@ export default function Login() {
 			<form
 				method="post"
 				onSubmit={handleSubmit}
-				className="w-full max-w-[320px] border border-base-300 bg-base-100"
+				className="w-full max-w-[420px] border border-base-300 bg-base-100"
 			>
 				<div className="px-6 py-8 border-b border-base-300 text-center">
 					<p className="text-xl font-bold tracking-wide text-primary">CDA</p>
@@ -158,7 +158,6 @@ export default function Login() {
 
 				<div className="px-6 py-5 border-t border-base-300 text-center space-y-2 text-[10px] text-base-content/50">
 					<div className="flex justify-between uppercase tracking-wide">
-						<span>Secure_V3_Encryption</span>
 						<span>CDA v1.0.0</span>
 					</div>
 					<p>
