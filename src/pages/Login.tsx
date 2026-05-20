@@ -11,10 +11,10 @@ const DEFAULT_SESSION_HOURS = 1
 export default function Login() {
 	const [error, setError] = useState<string | null>(null)
 	const navigate = useNavigate()
-	const passInputRef = useRef<HTMLInputElement>(null)
 
 	async function submitForm(form: HTMLFormElement) {
 		const formData = new FormData(form)
+		const org = formData.get("organisation") as string
 		const access = formData.get("access") as string
 		const pass = formData.get("pass") as string
 		const reqDurRaw = formData.get("req_dur")
@@ -30,7 +30,7 @@ export default function Login() {
 			:	SECONDS_PER_HOUR
 
 		try {
-			await login(access, pass, reqDur)
+			await login(org, access, pass, reqDur)
 			void navigate("/")
 		} catch (e) {
 			setError(e as string)
@@ -74,10 +74,27 @@ export default function Login() {
 
 					<div className="space-y-2">
 						<label
+							htmlFor="organisation"
+							className="text-xs font-bold tracking-wide uppercase text-base-content/80"
+						>
+							Organisation
+						</label>
+						<input
+							id="organisation"
+							name="organisation"
+							type="text"
+							placeholder="cda-foundation"
+							required
+							className="input input-bordered w-full rounded-none"
+						/>
+					</div>
+
+					<div className="space-y-2">
+						<label
 							htmlFor="access"
 							className="text-xs font-bold tracking-wide uppercase text-base-content/80"
 						>
-							Terminal Identifier
+							Access name
 						</label>
 						<input
 							id="access"
@@ -90,33 +107,18 @@ export default function Login() {
 					</div>
 
 					<div className="space-y-2">
-						<div className="flex items-center justify-between gap-2">
-							<label
-								htmlFor="pass"
-								className="text-xs font-bold tracking-wide uppercase text-base-content/80"
-							>
-								Security Credentials
-							</label>
-							<button
-								type="button"
-								onClick={() => {
-									if (passInputRef.current) {
-										passInputRef.current.value = ""
-										passInputRef.current.focus()
-									}
-								}}
-								className="btn btn-ghost btn-xs rounded-none px-0 uppercase tracking-wide text-primary"
-							>
-								Reset
-							</button>
-						</div>
+						<label
+							htmlFor="pass"
+							className="text-xs font-bold tracking-wide uppercase text-base-content/80"
+						>
+							Passphrase
+						</label>
 						<input
 							id="pass"
 							name="pass"
 							type="password"
 							placeholder="••••••••••••"
 							required
-							ref={passInputRef}
 							className="input input-bordered w-full rounded-none"
 						/>
 					</div>
