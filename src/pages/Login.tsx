@@ -156,13 +156,16 @@ export default function Login(){
 							</button>
 						</div>
 					</div>
-					<button
-						type="submit"
-						name="submit"
-						className="btn btn-primary w-full rounded-none mt-2 uppercase tracking-[0.15em] font-bold"
-					>
-						Log in
-					</button>
+
+					<div className="flex justify-center">
+						<button
+							type="submit"
+							name="submit"
+							className="btn btn-primary rounded-none mt-2 uppercase tracking-[0.15em] font-bold"
+						>
+							Log in
+						</button>
+					</div>
 				</div>
 
 				<div className="px-6 py-5 border-t border-base-300 text-center space-y-2 text-[10px] text-base-content/50">
