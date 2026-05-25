@@ -5,11 +5,12 @@ import { session_access } from "../lib/auth/session_access"
 
 const SECONDS_PER_HOUR = 60 * 60
 const HOURS_PER_DAY = 24
-const DAYS_IN_PERSISTENT_SESSION = 30
-const DEFAULT_SESSION_HOURS = 1
+const DEFAULT_SESSION_TIME = 1
 
-export default function Login() {
+export default function Login(){
 	const [error, setError] = useState<string | null>(null)
+	const [durationUnit, setDurationUnit] = useState<"hours" | "days">("hours")
+
 	const navigate = useNavigate()
 
 	async function submitForm(form: HTMLFormElement) {
@@ -18,16 +19,14 @@ export default function Login() {
 		const access = formData.get("access") as string
 		const pass = formData.get("pass") as string
 		const reqDurRaw = formData.get("req_dur")
-		const reqDurHours =
-			typeof reqDurRaw === "string" && reqDurRaw.trim() !== "" ?
-				Number(reqDurRaw)
-			:	DEFAULT_SESSION_HOURS
-		const persistentSession = formData.has("persistent_session")
-		const reqDur = persistentSession ?
-			SECONDS_PER_HOUR * HOURS_PER_DAY * DAYS_IN_PERSISTENT_SESSION
-		:	!Number.isNaN(reqDurHours) && reqDurHours > 0 ?
-				reqDurHours * SECONDS_PER_HOUR
-			:	SECONDS_PER_HOUR
+		const unit = formData.get("req_dur_unit") as string // "hours" or "days"
+		const reqDurValue =
+			typeof reqDurRaw === "string" && reqDurRaw.trim() !== ""
+				? Number(reqDurRaw)
+				: DEFAULT_SESSION_TIME
+		let reqDurHours = reqDurValue
+		if (unit === "days") reqDurHours *= HOURS_PER_DAY
+		const reqDur = reqDurHours * SECONDS_PER_HOUR
 
 		try {
 			await login(org, access, pass, reqDur)
@@ -128,33 +127,41 @@ export default function Login() {
 							htmlFor="req_dur"
 							className="text-xs font-bold tracking-wide uppercase text-base-content/80"
 						>
-							Session Duration (Hours)
+							Session Duration ({durationUnit === "hours" ? "Hours" : "Days"})
 						</label>
-						<input
-							id="req_dur"
-							name="req_dur"
-							type="number"
-							min={1}
-							defaultValue={DEFAULT_SESSION_HOURS}
-							className="input input-bordered w-full rounded-none"
-						/>
+						<div className="flex gap-2">
+							<input
+								id="req_dur"
+								name="req_dur"
+								type="number"
+								min={1}
+								defaultValue={DEFAULT_SESSION_TIME}
+								placeholder={durationUnit === "hours" ? "Hours" : "Days"}
+								className="input input-bordered w-full rounded-none"
+							/>
+							<input
+								type="hidden"
+								name="req_dur_unit"
+								value={durationUnit}
+							/>
+							<button
+								type="button"
+								className="btn btn-outline btn-sm rounded-none"
+								onClick={() =>
+									setDurationUnit(durationUnit === "hours" ? "days" : "hours")
+								}
+								tabIndex={-1}
+							>
+								{durationUnit === "hours" ? "To Days" : "To Hours"}
+							</button>
+						</div>
 					</div>
-
-					<label className="label cursor-pointer justify-start gap-2 px-0">
-						<input
-							type="checkbox"
-							name="persistent_session"
-							className="checkbox checkbox-xs rounded-none"
-						/>
-						<span className="text-sm text-base-content/80">Persistent Session</span>
-					</label>
-
 					<button
 						type="submit"
 						name="submit"
 						className="btn btn-primary w-full rounded-none mt-2 uppercase tracking-[0.15em] font-bold"
 					>
-						Authorize Access
+						Log in
 					</button>
 				</div>
 
