@@ -6,7 +6,6 @@ interface RetData {
 }
 
 export async function login(
-	organisation: string,
 	access: string,
 	pass: string,
 	req_dur = 3600,
@@ -17,7 +16,6 @@ export async function login(
 		method: "POST",
 		headers: headers,
 		body: JSON.stringify({
-			organisation: organisation,
 			access: access,
 			pass: pass,
 			requested_session_time: req_dur,
